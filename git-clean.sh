@@ -9,6 +9,7 @@ fi
 
 COMMIT=$(git show --format=%H ${BRANCH})
 
+git fetch --prune
 git branch --merged | egrep -v "(^\*|master|develop|release|HEAD)" | xargs git branch -d
 # push to remote
 WEEK_AGO=$(python -c "from datetime import date, timedelta; print(date.today()-timedelta(days=7))")
