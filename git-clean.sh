@@ -15,7 +15,7 @@ git branch --merged | egrep -v "(^\*|master|develop|release|HEAD)" | xargs git b
 if [ "$2" == "-r" ]
 then
 	echo "Pushing to remote"
-	WEEK_AGO=$(python -c "from datetime import date, timedelta; print(date.today()-timedelta(days=7))")
+	WEEK_AGO=$(python -c "from datetime import date, timedelta; print(date.today()-timedelta(days=30))")
 	git branch -r --format="${WEEK_AGO} %(committerdate:short) %(refname:short)" --merged | sed 's/origin\///g' | egrep -v "(^\*|master|develop|release|HEAD)" | awk '$1 > $2' | awk '{ print $3 }' | xargs git push origin --delete 
 	git prune
 else
