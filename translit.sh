@@ -1,6 +1,5 @@
 #!/bin/bash
-# Перекодирует рекурсивно в текущем каталоге имена
-# файлов и каталогов в транслит.
+# Recursively rename all files in the current directory from Cyrillic to Latin using transliteration
 #
 # Improved by Dumitru Uzun (https://DUzun.Me)
 #
