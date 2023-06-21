@@ -2,7 +2,7 @@
 
 if [ -z "$1" ]
 then
-    BRANCH=origin/develop
+    BRANCH=HEAD
 else
     BRANCH=$1
 fi
