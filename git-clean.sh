@@ -10,7 +10,7 @@ fi
 COMMIT=$(git show --format=%H ${BRANCH})
 
 git fetch --prune
-git branch --merged | egrep -v "(^\*|main|master|develop|release|HEAD)" | xargs git branch -d
+git branch --merged | egrep -v "(^\*|main|master|develop|dev|staging|release|HEAD)" | xargs git branch -d
 # push to remote
 if [ "$2" == "-r" ]
 then
