@@ -1,36 +1,36 @@
 #!/usr/bin/env bash
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+# run_git_recursively.sh — run a shell command inside every git repo under
+# the current directory (node_modules is skipped).
+#
+# Usage: run_git_recursively.sh <command...>
+#
+# Examples:
+#   run_git_recursively.sh git pull
+#   run_git_recursively.sh 'git status -sb && git stash list'
+#
+# The command goes through eval, so quote it to keep && and pipes together.
+# nvm is loaded first so node/npm commands work.
 
-# Check if a command was provided
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
 if [ "$#" -eq 0 ]; then
-    echo "Usage: run_in_git_repos.sh <command>"
+    echo "Usage: run_git_recursively.sh <command...>" >&2
     exit 1
 fi
 
-# Get the command to run
-COMMAND="$@"
+COMMAND="$*"
 
-# Function to run a command in a Git repository
 run_command_in_repo() {
     local repo_dir="$1"
-
-    # Navigate to the repository directory
-    pushd "$repo_dir" || return
-
+    pushd "$repo_dir" > /dev/null || return
     echo "Running command in repository: $repo_dir"
-
-    # Run the command
-    eval "$COMMAND"
-
+    # stdin is closed so the command can't swallow the list of repos below
+    eval "$COMMAND" < /dev/null
     echo "Command completed in $repo_dir"
-    popd
+    popd > /dev/null || return
 }
 
-export -f run_command_in_repo
-
-# Find all .git directories while excluding node_modules
 find . -type d -name "node_modules" -prune -o -type d -name ".git" -print | while read -r gitdir; do
     repo_dir=$(dirname "$gitdir")
     echo "Processing repository: $repo_dir"
