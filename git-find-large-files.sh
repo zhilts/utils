@@ -1,8 +1,11 @@
 #!/bin/bash
-#set -x 
-
-# Shows you the largest objects in your repo's pack file.
-# Written for osx.
+# git-find-large-files.sh — show the 10 largest objects in the repo's pack files,
+# with their size, packed size, SHA and path.
+#
+# Usage: git-find-large-files.sh     (run anywhere inside the repo)
+#
+# Only packed objects are listed; run `git gc` first on a fresh repo.
+# To see which commits hold a file, pass its SHA to git-find-blob.sh.
 #
 # @see https://stubbisms.wordpress.com/2009/07/10/git-script-to-show-largest-pack-objects-and-trim-your-waist-line/
 # @author Antony Stubbs
@@ -11,7 +14,7 @@
 IFS=$'\n';
 
 # list all objects including their size, sort by size, take top 10
-objects=`git verify-pack -v .git/objects/pack/pack-*.idx | grep -v chain | sort -k3nr | head`
+objects=`git verify-pack -v "$(git rev-parse --git-path objects/pack)"/pack-*.idx | grep -v chain | sort -k3nr | head`
 
 echo "All sizes are in kB's. The pack column is the size of the object, compressed, inside the pack file."
 
