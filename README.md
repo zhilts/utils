@@ -22,4 +22,4 @@ Each script has a usage comment at the top.
 | `git-set-author.sh <email> [name]` | Set `user.email` / `user.name` in every repo under the current directory. |
 | `run_git_recursively.sh <command>` | Run a command in every repo under the current directory. |
 | `translit.sh [dir]` | Rename files and folders from Cyrillic to Latin, recursively. |
-| `sigma_dev_source.sh` | Functions to mount and rsync code on the `sigma` dev server. Source it: `source sigma_dev_source.sh`. |
+| `devbox.sh` | Functions to mount and rsync code on a remote dev server (ssh host `devbox` by default, see `DEVBOX_REMOTE`). Source it: `source devbox.sh`. |
